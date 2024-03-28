@@ -3,11 +3,10 @@ require('dotenv').config();
 
 // Cấu hình kết nối với MySQL
 const connection = mysql.createConnection({
-    port: 3306,
-    host: 'sql.freedb.tech',
-    user: 'freedb_vangiang',
-    password: 'UFU4sTrvZrADYt%',
-    database: 'freedb_cinema'
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'db_CinemaManagementApp'
 });
 
 connection.connect();
