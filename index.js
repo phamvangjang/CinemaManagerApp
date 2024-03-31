@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 var bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const moviesRoutes = require('./app/routes/movies.router');
@@ -19,6 +20,7 @@ const app = express();
 // Sử dụng body-parser middleware để xử lý dữ liệu POST
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors())
 
 // Sử dụng route cho việc lay du lieu 
 app.use('/api/movies', moviesRoutes);
@@ -36,6 +38,13 @@ app.use('/api/Bookings', BookingsRouters);
 app.get('/protected', authenticateJWT, (req, res) => {
     res.json({ message: 'Protected route accessed successfully', user: req.user });
 });
+
+//set header 
+// const http = require('http');
+// const server = http.createServer((req,res) =>{
+//     res.setHeader('Content-type', 'application/json')
+//     res.write...?
+// })
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
