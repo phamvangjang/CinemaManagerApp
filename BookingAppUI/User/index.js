@@ -105,30 +105,53 @@ function fetchMovies() {
 }
 
 // Function to render movies with specified filter
-function renderMovies(filter) { 
+// truyền vào data mà sao đây lại là filter???
+// và cũng ko dùng data để render
+// mà lại gọi fetchMovies (get all movies) để render  :))))
+function renderMovies(data) { 
     const moviesContainer = document.querySelector('.covers');
-    fetchMovies().then(movies => {
-        //const filteredMovies = filter !== '' ? movies.filter(movie => movie.GenreId == filter) : movies;
-        const moviesRender = movies.map(movie => {
-            if (filter !== '' && movie.GenreId !== parseInt(filter)) {
-                return '';
-            }
-            const { MovieId, Banner, Name, Duration, ReleaseDate } = movie;
-            const releaseDate = new Date(ReleaseDate).toLocaleDateString();
-            return `
-                <li data-index="${MovieId}">
-                    <img src="${Banner}" alt="${Name}">
-                    <span>${Name}</span>
-                    <small>${Duration}m ${releaseDate}</small>
-                </li>
-            `;
-        });
-        moviesContainer.innerHTML = moviesRender.join('');
-    });
+    
+    const moviesHTML =  data.map(movie => {
+        const { MovieId, Banner, Name, Duration, ReleaseDate } = movie;
+        const releaseDate = new Date(ReleaseDate).toLocaleDateString();
+
+        return `
+            <li data-index="${MovieId}">
+                <img src="${Banner}" alt="${Name}">
+                <span>${Name}</span>
+                <small>${Duration}m ${releaseDate}</small>
+            </li>
+        `; 
+    }).join('');
+
+    moviesContainer.innerHTML = moviesHTML
+    
+    
+    // fetchMovies().then(movies => {
+    //     const filteredMovies = filter !== '' ? movies.filter(movie => movie.GenreId == filter) : movies;
+    //     const moviesRender = filteredMovies.map(movie => {
+    //         if (filter !== '' && movie.GenreId !== parseInt(filter)) {
+    //             return '';
+    //         }
+    //         const { MovieId, Banner, Name, Duration, ReleaseDate } = movie;
+    //         const releaseDate = new Date(ReleaseDate).toLocaleDateString();
+    //         return `
+    //             <li data-index="${MovieId}">
+    //                 <img src="${Banner}" alt="${Name}">
+    //                 <span>${Name}</span>
+    //                 <small>${Duration}m ${releaseDate}</small>
+    //             </li>
+    //         `;
+    //     });
+    //     moviesContainer.innerHTML = moviesRender.join('');
+    // });
 }
 
 // Default to show all movies
-renderMovies('');
+fetchMovies().then( data => {
+    renderMovies(data);
+})
+
 
 //end test
 
@@ -163,18 +186,23 @@ $('.seats').on('click', '.seat', evt => {
 });
 
 //handle event gender film
-$('.filter li').on('click', evt => {
+const handleSwitchTabFuc = function(evt) {
     $(evt.currentTarget).addClass('selected').siblings().removeClass('selected');
     var $covers = $('.covers').removeClass('loaded').removeClass('up');
     var filter = evt.currentTarget.getAttribute('data-gid');
     if (filter === ',') {
-        renderMovies(''); // Render all movies if "All" is selected
+        // Render all movies if "All" is selected
+        fetchMovies().then( data => {
+            renderMovies(data);
+        }) 
     } else {
         filterMoviesByGenreId(filter); // Call function to filter movies by GenreID
     }
     scroll = 0;
     setTimeout(() => $covers.toggleClass('loaded'), 100);
-});
+}
+$('.filter li').on('click',handleSwitchTabFuc);
+
 //start test
 // Function to filter movies by GenreID using API
 function filterMoviesByGenreId(GenreId) {
@@ -187,7 +215,7 @@ function filterMoviesByGenreId(GenreId) {
             return response.json();
         })
         .then(data => {
-            renderMovies(data); // Assuming renderMovies function handles rendering filtered movies
+            renderMovies(data.movies); // Assuming renderMovies function handles rendering filtered movies
         })
         .catch(error => {
             console.error('There was a problem fetching the movies:', error);
@@ -219,16 +247,17 @@ function populateGenres() {
             li.setAttribute('data-gid', genre.GenreId);
             li.setAttribute('id', 'list');
             li.textContent = genre.Name;
-            li.addEventListener('click', () => {
-                // Remove selected class from all li elements
-                filterList.querySelectorAll('li').forEach(item => {
-                    item.classList.remove('selected');
-                });
-                // Add selected class to the clicked li element
-                li.classList.add('selected');
-                // Call function to filter movies by genre ID
-                filterMoviesByGenreId(genre.GenreId);
-            });
+            li.addEventListener('click', handleSwitchTabFuc)
+            // li.addEventListener('click', () => {
+            //     // Remove selected class from all li elements
+            //     filterList.querySelectorAll('li').forEach(item => {
+            //         item.classList.remove('selected');
+            //     });
+            //     // Add selected class to the clicked li element
+            //     li.classList.add('selected');
+            //     // Call function to filter movies by genre ID
+            //     filterMoviesByGenreId(genre.GenreId);
+            // });
             filterList.appendChild(li);
         });
     });
