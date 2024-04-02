@@ -5,7 +5,7 @@ const connection = require('../common/connect'); // Assuming you have a connecti
 
 const User = {
   findByEmail: function (email, callback) {
-    connection.query('SELECT * FROM Users WHERE Email = ?', email, callback);
+    connection.query('SELECT * FROM Users WHERE BINARY Email = ?', email, callback);
   },
 
   logout: function (accessToken, callback) {

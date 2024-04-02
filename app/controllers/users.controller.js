@@ -75,7 +75,7 @@ exports.signIn = (req, res) => {
   });
 };
 
-//sign up
+//sign out
 exports.logout = (req, res) => {
   const accessToken = req.headers.authorization;
   User.logout(accessToken, (result) => {
