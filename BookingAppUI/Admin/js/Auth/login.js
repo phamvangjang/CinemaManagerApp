@@ -48,7 +48,7 @@ function loginUser() {
                 localStorage.setItem('token', data.token);
 
                 // Redirect to index.html or any other page
-                window.location.href = 'index.html';
+                window.location.href = 'home.html';
             } else {
                 alert(data.message); // Show error message if any
             }

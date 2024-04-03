@@ -288,30 +288,46 @@
 
 
           <!-- Edit Modal HTML -->
-          <div id="editEmployeeModal" class="modal fade">
+          <div id="editMovieModal" class="modal fade">
             <div class="modal-dialog">
               <div class="modal-content">
-                <form>
+                <form id="editMovieForm">
                   <div class="modal-header">
-                    <h4 class="modal-title">Edit Employee</h4>
+                    <h4 class="modal-title">Edit Movie</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                   </div>
                   <div class="modal-body">
                     <div class="form-group">
                       <label>Name</label>
-                      <input type="text" class="form-control" required>
+                      <input id="editName" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
-                      <label>Email</label>
-                      <input type="email" class="form-control" required>
+                      <label>Description</label>
+                      <input id="editDescription" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
-                      <label>Address</label>
-                      <textarea class="form-control" required></textarea>
+                      <label>Release Date</label>
+                      <input type="date" id="editReleaseDate" class="form-control" required>
                     </div>
                     <div class="form-group">
-                      <label>Phone</label>
-                      <input type="text" class="form-control" required>
+                      <label>Duration</label>
+                      <input type="number" id="editDuration" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Banner</label>
+                      <input id="editBanner" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Trailer</label>
+                      <input id="editTrailer" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label>GenreId</label>
+                      <input type="number" id="editGenreId" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Price</label>
+                      <input type="number" id="editPrice" class="form-control" required>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -371,6 +387,7 @@
   <script src="./js/Library/popper.min.js"></script>
   <script src="./js/Admin/Movie/readMovie.js"></script>
   <script src="./js/Admin/Movie/createMovie.js"></script>
+  <script src="./js/Admin/Movie/updateMovie.js"></script>
 
 
   <script type="text/javascript">

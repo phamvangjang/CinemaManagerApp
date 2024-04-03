@@ -39,13 +39,6 @@ app.get('/protected', authenticateJWT, (req, res) => {
     res.json({ message: 'Protected route accessed successfully', user: req.user });
 });
 
-//set header 
-// const http = require('http');
-// const server = http.createServer((req,res) =>{
-//     res.setHeader('Content-type', 'application/json')
-//     res.write...?
-// })
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server đang chạy trên port ${port}`);
