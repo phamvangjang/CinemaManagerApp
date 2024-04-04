@@ -1,3 +1,4 @@
+let currentMovieId; // Define a variable to store the movieId
 // Function to fetch movie details and populate the edit form
 function populateEditForm(movieId) {
     fetch(`http://localhost:3000/api/movies/detail/${movieId}`)
@@ -17,7 +18,8 @@ function populateEditForm(movieId) {
         document.getElementById('editTrailer').value = data.Movies.Trailer;
         document.getElementById('editGenreId').value = data.Movies.GenreId;
         document.getElementById('editPrice').value = data.Movies.Price;
-
+        
+        currentMovieId = movieId;
         // Open the edit movie modal
         $('#editMovieModal').modal('show');
 
@@ -39,17 +41,19 @@ function editMovie(movieId) {
 document.getElementById('editMovieForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    // Collect updated movie data from the form fields
-    const movieId = window.location.pathname.split('/').pop();
-    alert(movieId)
+    
     const formData = {
         name: document.getElementById('editName').value,
         description: document.getElementById('editDescription').value,
         releaseDate: document.getElementById('editReleaseDate').value,
         duration: parseInt(document.getElementById('editDuration').value),
-        // Add other form fields as needed
+        banner: document.getElementById('editBanner').value,
+        trailer: document.getElementById('editTrailer').value,
+        genreId: parseInt(document.getElementById('editGenreId').value),
+        price: parseFloat(document.getElementById('editPrice').value)
     };
 
+    const movieId = currentMovieId;
     // Send a PUT request to the API endpoint to update the movie
     fetch(`http://localhost:3000/api/movies/update/${movieId}`, {
         method: 'PUT',
@@ -76,6 +80,4 @@ document.getElementById('editMovieForm').addEventListener('submit', function(eve
         alert('An error occurred while updating the movie. Please try again.');
     });
 });
-
-
 
