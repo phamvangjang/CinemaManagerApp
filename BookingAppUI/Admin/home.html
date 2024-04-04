@@ -240,7 +240,7 @@
               <div class="modal-content">
                 <form id="addMovieForm">
                   <div class="modal-header">
-                    <h4 class="modal-title">Add Employee</h4>
+                    <h4 class="modal-title">Add Movie</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                   </div>
                   <div class="modal-body">
@@ -341,16 +341,16 @@
 
 
           <!-- Delete Modal HTML -->
-          <div id="deleteEmployeeModal" class="modal fade">
+          <div id="deleteMovieModal" class="modal fade">
             <div class="modal-dialog">
               <div class="modal-content">
-                <form>
+                <form id="deleteMovieForm">
                   <div class="modal-header">
-                    <h4 class="modal-title">Delete Employee</h4>
+                    <h4 class="modal-title">Delete Movie</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                   </div>
                   <div class="modal-body">
-                    <p>Are you sure you want to delete these Records?</p>
+                    <p>Are you sure you want to delete movie <strong><span id="deleteMovieName"></span></strong> ?</p>
                     <p class="text-warning"><small>This action cannot be undone.</small></p>
                   </div>
                   <div class="modal-footer">
@@ -380,6 +380,13 @@
   <!----------html code compleate----------->
 
   <!-- Optional JavaScript -->
+  <!-- Bao gồm jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Bao gồm Bootstrap JavaScript (popper.js và bootstrap.min.js) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="./js/Library/jquery-3.3.1.slim.min.js"></script>
   <script src="./js/Library/bootstrap.min.js"></script>
@@ -388,6 +395,7 @@
   <script src="./js/Admin/Movie/readMovie.js"></script>
   <script src="./js/Admin/Movie/createMovie.js"></script>
   <script src="./js/Admin/Movie/updateMovie.js"></script>
+  <script src="./js/Admin/Movie/deleteMovie.js"></script>
 
 
   <script type="text/javascript">

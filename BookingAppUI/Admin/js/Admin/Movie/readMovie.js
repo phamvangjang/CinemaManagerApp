@@ -32,7 +32,7 @@ fetch('http://localhost:3000/api/movies/getLists')
             <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
             
           </a>
-          <a href="#deleteMovieModal" class="delete" data-toggle="modal" data-id="${movie.MovieId}">
+          <a onclick="deleteMovie('${movie.MovieId}')" href="#deleteMovieModal" class="delete" data-toggle="modal" data-id="${movie.MovieId}">
             <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
           </a>
         </td>
