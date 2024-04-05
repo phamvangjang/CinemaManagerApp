@@ -70,7 +70,7 @@ exports.signIn = (req, res) => {
 
       // Passwords match, user is authenticated
       const token = jwt.sign({ Email: user.Email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.status(200).json({ message: 'Sign-in successful', user: { email: user.Email, avatar: user.Avatar }, token });
+      res.status(200).json({ message: 'Sign-in successful', user: { email: user.Email, avatar: user.Avatar, role: user.Role }, token });
     });
   });
 };

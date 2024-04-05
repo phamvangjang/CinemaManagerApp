@@ -328,6 +328,8 @@
     padding: 8px 5px;
     border: solid 2px #777;
     outline: none;
+    
+    margin-left: 10px;
   }
   
   ul.menu { margin: 15px 0; }

@@ -59,36 +59,7 @@ $('.covers').on('click', 'li', evt => {
     tooglePage1();
 });
 
-//show list movie
-/*
-// https://image.tmdb.org/t/p/w300/w93GAiq860UjmgR6tU9h2T24vaV.jpg
-function doMoviesRender(filter) {
-    var movies = getData().results;
-    var moviesRender = movies.map((item, index) => {
-        var {
-            title,
-            genre_ids,
-            poster_path,
-            overview
-        } = item;
 
-        var uri = `https://image.tmdb.org/t/p/w300/${poster_path}`;
-        var gid = genre_ids.toString();
-
-        return (gid.indexOf(filter) < 0) ? '' : `
-			<li data-index="${index}">
-				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8zw8AAhMBENYXhyAAAAAASUVORK5CYII=" style="background-image: url(${uri})">
-				<span>${title}</span><small>16:00 (2h 15m)</small>
-			</li>
-		`;
-    });
-
-    $('.covers').html(moviesRender.join(''));
-}
-//defaul show all list movie
-doMoviesRender(',');
-*/
-//start test
 // Function to fetch movies data from the API
 function fetchMovies() {
     return fetch('http://localhost:3000/api/movies/getLists')
@@ -104,14 +75,21 @@ function fetchMovies() {
         });
 }
 
-// Function to render movies with specified filter
-// truyền vào data mà sao đây lại là filter???
-// và cũng ko dùng data để render
-// mà lại gọi fetchMovies (get all movies) để render  :))))
-function renderMovies(data) { 
+// Default to show all movies
+fetchMovies().then(data => {
+    //clear data
     const moviesContainer = document.querySelector('.covers');
-    
-    const moviesHTML =  data.map(movie => {
+    const moviesHTML = data.map(movie => {
+        return ` `;
+    }).join('');
+    moviesContainer.innerHTML = moviesHTML
+    renderMovies(data);
+})
+
+function renderMovies(data) {
+    const moviesContainer = document.querySelector('.covers');
+
+    const moviesHTML = data.map(movie => {
         const { MovieId, Banner, Name, Duration, ReleaseDate } = movie;
         const releaseDate = new Date(ReleaseDate).toLocaleDateString();
 
@@ -121,89 +99,32 @@ function renderMovies(data) {
                 <span>${Name}</span>
                 <small>${Duration}m ${releaseDate}</small>
             </li>
-        `; 
+        `;
     }).join('');
 
     moviesContainer.innerHTML = moviesHTML
-    
-    
-    // fetchMovies().then(movies => {
-    //     const filteredMovies = filter !== '' ? movies.filter(movie => movie.GenreId == filter) : movies;
-    //     const moviesRender = filteredMovies.map(movie => {
-    //         if (filter !== '' && movie.GenreId !== parseInt(filter)) {
-    //             return '';
-    //         }
-    //         const { MovieId, Banner, Name, Duration, ReleaseDate } = movie;
-    //         const releaseDate = new Date(ReleaseDate).toLocaleDateString();
-    //         return `
-    //             <li data-index="${MovieId}">
-    //                 <img src="${Banner}" alt="${Name}">
-    //                 <span>${Name}</span>
-    //                 <small>${Duration}m ${releaseDate}</small>
-    //             </li>
-    //         `;
-    //     });
-    //     moviesContainer.innerHTML = moviesRender.join('');
-    // });
 }
 
-// Default to show all movies
-fetchMovies().then( data => {
-    renderMovies(data);
-})
-
-
-//end test
-
-//show seat
-var seats = [];
-var initPos = 65;
-for (var i = 0; i < 78; i++) {
-    var row = String.fromCharCode(initPos + Math.floor(i / 9));
-    var taken = (i % 7 == 0 || i % 6 == 0) ? 'taken' : '';
-
-    var aisle = (i % 9 === 1) ? 'aisle-right' :
-        (i % 9 === 7) ? 'aisle-left' : '';
-
-    if (row === 'I')
-        aisle = 'aisle-top';
-
-    seats.push(`<div class="seat ${taken} ${aisle}">${row}${i % 9 + 1}</div>`);
-}
-$('.seats').html(seats.join(''));
-
-//booking seat
-$('.seats').on('click', '.seat', evt => {
-    var $seat = $(evt.currentTarget);
-
-    if (!$seat.hasClass('taken')) {
-        $seat.toggleClass('selected');
-
-        var $sel = $seat.parent().find('.selected');
-        var qty = $sel.length * 5.44;
-        $('.total span').text(`$${qty}`.substring(0, 6));
-    }
-});
 
 //handle event gender film
-const handleSwitchTabFuc = function(evt) {
+const handleSwitchTabFuc = function (evt) {
     $(evt.currentTarget).addClass('selected').siblings().removeClass('selected');
     var $covers = $('.covers').removeClass('loaded').removeClass('up');
     var filter = evt.currentTarget.getAttribute('data-gid');
     if (filter === ',') {
         // Render all movies if "All" is selected
-        fetchMovies().then( data => {
+        fetchMovies().then(data => {
             renderMovies(data);
-        }) 
+        })
     } else {
         filterMoviesByGenreId(filter); // Call function to filter movies by GenreID
     }
     scroll = 0;
     setTimeout(() => $covers.toggleClass('loaded'), 100);
 }
-$('.filter li').on('click',handleSwitchTabFuc);
+$('.filter li').on('click', handleSwitchTabFuc);
 
-//start test
+
 // Function to filter movies by GenreID using API
 function filterMoviesByGenreId(GenreId) {
     const apiUrl = `http://localhost:3000/api/movies/filtByGenreId/${GenreId}`;
@@ -248,16 +169,6 @@ function populateGenres() {
             li.setAttribute('id', 'list');
             li.textContent = genre.Name;
             li.addEventListener('click', handleSwitchTabFuc)
-            // li.addEventListener('click', () => {
-            //     // Remove selected class from all li elements
-            //     filterList.querySelectorAll('li').forEach(item => {
-            //         item.classList.remove('selected');
-            //     });
-            //     // Add selected class to the clicked li element
-            //     li.classList.add('selected');
-            //     // Call function to filter movies by genre ID
-            //     filterMoviesByGenreId(genre.GenreId);
-            // });
             filterList.appendChild(li);
         });
     });
@@ -266,7 +177,38 @@ function populateGenres() {
 // Call the function to populate the ul list with genres
 populateGenres();
 
-//end test
+
+//show seat
+var seats = [];
+var initPos = 65;
+for (var i = 0; i < 78; i++) {
+    var row = String.fromCharCode(initPos + Math.floor(i / 9));
+    var taken = (i % 7 == 0 || i % 6 == 0) ? 'taken' : '';
+
+    var aisle = (i % 9 === 1) ? 'aisle-right' :
+        (i % 9 === 7) ? 'aisle-left' : '';
+
+    if (row === 'I')
+        aisle = 'aisle-top';
+
+    seats.push(`<div class="seat ${taken} ${aisle}">${row}${i % 9 + 1}</div>`);
+}
+$('.seats').html(seats.join(''));
+
+//booking seat
+$('.seats').on('click', '.seat', evt => {
+    var $seat = $(evt.currentTarget);
+
+    if (!$seat.hasClass('taken')) {
+        $seat.toggleClass('selected');
+
+        var $sel = $seat.parent().find('.selected');
+        var qty = $sel.length * 5.44;
+        $('.total span').text(`$${qty}`.substring(0, 6));
+    }
+});
+
+
 //handel event booking was success
 $('.total button').on('click', function (evt) {
     var $button = $(evt.currentTarget);
@@ -616,32 +558,4 @@ function getData() {
         ]
     }
 }
-
-
-// $(document).ready(function () {
-//     showGender();
-// });
-// //get list gender
-// showGender = () => {
-//     $.getJSON("http://localhost:3000/api/genre/getLists", function (data) {
-//         let content = '';
-//         console.log(data);
-//         if (data) {
-//             $.map(data.data, function (item) {
-
-//                 let id = item.GenreId;
-//                 let name = item.Name;
-//                 content += `
-//                 <li  data-gid="${id} ">${name} </li>
-                           
-                        
-//                 `;
-//                 alert(name);
-//             });
-//         }
-//         $('.filter').html(content);
-
-//     });
-// }
-
 

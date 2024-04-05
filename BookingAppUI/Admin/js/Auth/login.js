@@ -46,9 +46,14 @@ function loginUser() {
                 // Store user data and token in localStorage or session storage
                 localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('token', data.token);
+                console.log(data.user.role);
+                if (data.user.role === 1) {
+                    // Redirect to index.html or any other page
+                    window.location.href = 'home.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
 
-                // Redirect to index.html or any other page
-                window.location.href = 'home.html';
             } else {
                 alert(data.message); // Show error message if any
             }
