@@ -1,9 +1,8 @@
-// var userId = null;
 // Get the modal
-var modal = document.getElementById("myModal");
+var modal = document.getElementById("addModal");
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+var btn = document.getElementById("btnDetailUser");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
