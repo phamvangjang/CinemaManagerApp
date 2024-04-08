@@ -11,7 +11,7 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="./css/assets/client/modal.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Booking Cinema App</title>
 </head>
 
@@ -26,15 +26,11 @@
             <button class="search" type="submit" id="button-addon2">SEARCH</button>
             <ul class="menu">
 
-                <li id="myBtn"><i class="zmdi zmdi-female"></i> Profile</li>
-                <li title="Ladies Night"><i class="zmdi zmdi-female"></i> Thrusday</li>
-                <li title="Family Friday"><i class="zmdi zmdi-male-female"></i> Friday</li>
-                <li title=""><i class="zmdi zmdi-collection-item-1"></i> Saturday</li>
-                <li title=""><i class="zmdi zmdi-collection-item-2"></i> Sunday</li>
-                <li title="Monday for All"><i class="zmdi zmdi-accounts-alt"></i> Monday</li>
-                <li title="Kids Tuesday"><i class="zmdi zmdi-face"></i> Tuesday</li>
+                <li id="btnDetailUser"><i class="fa fa-user-circle-o"></i> Profile</li>
+                <li id="btnEditUser" title="Edit"><i class="fa fa-edit"></i> Edit</li>
+                <li title="History Booking"><i class="fa fa-history"></i> History Booking</li>
                 <li class="divider">
-                    <i class="zmdi zmdi-calendar"></i> Coming Soon
+                    <i class="fa fa-sign-out"></i> Sign Out
                 </li>
             </ul>
         </div>
@@ -94,8 +90,8 @@
         </div>
     </div>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
+    <!-- The Modal Infor -->
+    <div id="addModal" class="modal">
 
         <!-- Modal content -->
         <div class="modal-content">
@@ -111,9 +107,45 @@
         </div>
 
     </div>
+
+    <!-- The Modal Edit -->
+    <div id="editModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="closeModalEdit">&times;</span>
+                <h2>Edit User Profile</h2>
+            </div>
+            <div id="editProfileInfo" class="modal-body">
+                <!-- render infor user -->
+                <div>
+                    <form id="editFormUser"">
+                        <label for="fname">User Name</label>
+                        <input type="text" id="userName" name="name" placeholder="Enter User Name">
+
+                        <label for="lname">Avatar</label>
+                        <input type="text" id="avatar" name="avatar" placeholder="Enter Avatar">
+
+                        <label for="fname">Old Password</label>
+                        <input type="text" id="oldPassword" name="oldPassword" placeholder="Enter Old Password">
+
+                        <label for="lname">New Password</label>
+                        <input type="text" id="newPassword" name="newPassword" placeholder="Enter New Password">
+
+                        <input id="btnChange" type="submit" value="Change">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
     <script src="./js/Client/index.js"></script>
     <script src="./js/Client/findMovieByName.js"></script>
     <script src="./js/Client/User.js"></script>
+    <script src="./js/Client/editUser.js"></script>
 </body>
 
 </html>
