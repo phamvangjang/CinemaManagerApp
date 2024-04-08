@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,400">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="./css/assets/client/modal.css">
+
     <title>Booking Cinema App</title>
 </head>
 
@@ -23,7 +25,8 @@
             <input type="text" class="search" placeholder="Search" />
             <button class="search" type="submit" id="button-addon2">SEARCH</button>
             <ul class="menu">
-                <li title="" class="selected"><i class="zmdi zmdi-label-alt"></i> Today</li>
+
+                <li id="myBtn"><i class="zmdi zmdi-female"></i> Profile</li>
                 <li title="Ladies Night"><i class="zmdi zmdi-female"></i> Thrusday</li>
                 <li title="Family Friday"><i class="zmdi zmdi-male-female"></i> Friday</li>
                 <li title=""><i class="zmdi zmdi-collection-item-1"></i> Saturday</li>
@@ -90,8 +93,27 @@
             </div>
         </div>
     </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>User Profile</h2>
+            </div>
+            <div id="profileInfo" class="modal-body">
+                <!-- render infor user -->
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
     <script src="./js/Client/index.js"></script>
     <script src="./js/Client/findMovieByName.js"></script>
+    <script src="./js/Client/User.js"></script>
 </body>
 
 </html>
