@@ -69,8 +69,8 @@ exports.signIn = (req, res) => {
       }
 
       // Passwords match, user is authenticated
-      const token = jwt.sign({ Email: user.Email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.status(200).json({ message: 'Sign-in successful', user: { email: user.Email, avatar: user.Avatar, role: user.Role }, token });
+      const token = jwt.sign({ userId: user.UserId, Email: user.Email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      res.status(200).json({ message: 'Sign-in successful', user: { UserId: user.UserId, email: user.Email, avatar: user.Avatar, role: user.Role }, token });
     });
   });
 };
@@ -84,5 +84,21 @@ exports.logout = (req, res) => {
     } else {
       res.status(500).json({ message: 'Failed to logout user' });
     }
+  });
+};
+
+
+exports.getUserById = (req, res) => {
+  const { userId } = req.params;
+
+  // Fetch movie by MovieId from the database
+  User.getUserById(userId, (error, Users) => {
+      if (error) {
+          return res.status(500).json({ error: error.message });
+      }
+      if (!User) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      res.status(200).json({ Users });
   });
 };

@@ -10,6 +10,18 @@ const User = {
 
   logout: function (accessToken, callback) {
     callback({ success: true });
+  },
+
+  getUserById: function (userId, callback) {
+    connection.query('SELECT * FROM Users WHERE UserId = ?', [userId], (error, results) => {
+      if (error) {
+        return callback(error);
+      }
+      if (results.length === 0) {
+        return callback(null, null); // Movie not found
+      }
+      callback(null, results[0]);
+    });
   }
 };
 
