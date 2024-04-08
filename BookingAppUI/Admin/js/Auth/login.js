@@ -43,6 +43,11 @@ function loginUser() {
             // Check if the response contains an error message
             if (data.message === "Sign-in successful") {
                 alert(data.message); // Show error message if any
+
+                // Save login status
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userId', data.user.UserId);
+
                 // Store user data and token in localStorage or session storage
                 localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('token', data.token);
