@@ -93,12 +93,58 @@ exports.getUserById = (req, res) => {
 
   // Fetch movie by MovieId from the database
   User.getUserById(userId, (error, Users) => {
-      if (error) {
-          return res.status(500).json({ error: error.message });
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    if (!User) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ Users });
+  });
+};
+
+//edit User
+exports.editUser = (req, res) => {
+  const userId = req.params.userId;
+  const { oldPassword, newPassword, userData } = req.body;
+
+  // Retrieve user data including the password
+  User.getUserPasswordById(userId, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const userPassword = result[0].Password;
+
+    // Compare old password with the hashed password retrieved from the database
+    bcrypt.compare(oldPassword, userPassword, (err, isMatch) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
       }
-      if (!User) {
-          return res.status(404).json({ message: 'User not found' });
+
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Incorrect old password' });
       }
-      res.status(200).json({ Users });
+
+      // Hash the new password before updating it in the database
+      bcrypt.hash(newPassword, 10, (err, hashedPassword) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+
+        // Update user information with the new data
+        const updatedUserData = { ...userData, Password: hashedPassword };
+        User.updateUser(userId, updatedUserData, (err, result) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+          res.status(200).json({ message: 'User information updated successfully' });
+        });
+      });
+    });
   });
 };

@@ -22,8 +22,20 @@ const User = {
       }
       callback(null, results[0]);
     });
+  },
+
+  //edit User
+  updateUser: function (userId, userData, callback) {
+    const { Username, Password, Avatar } = userData;
+    connection.query('UPDATE Users SET Username = ?, Password = ?, Avatar = ? WHERE UserId = ?', [Username, Password, Avatar, userId], callback);
+  },
+
+  getUserPasswordById: (userId, callback) => {
+    connection.query('SELECT Password FROM Users WHERE UserId = ?', [userId], callback);
   }
 };
+
+
 
 module.exports = users;
 module.exports = User;
