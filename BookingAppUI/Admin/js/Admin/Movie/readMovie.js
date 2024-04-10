@@ -34,6 +34,7 @@ function loadData(data) {
       <td>${releaseDate}</td>
       <td>${movie.Duration}m</td>
       <td>${movie.Price} VND</td>
+      <td>${movie.startTime} </td>
       <td>
         <a onclick="editMovie('${movie.MovieId}')" href="#editMovieModal" class="edit" data-toggle="modal" data-id="${movie.MovieId}">
           <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>

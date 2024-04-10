@@ -44,21 +44,40 @@ $('button.back').on('click', evt => {
 
 //show detail of movie page2
 $('.covers').on('click', 'li', evt => {
-    var data = getData();
+    // var data = getData();
     var index = evt.currentTarget.getAttribute('data-index');
-    var movie = data.results[parseInt(index)];
-    var txt = (movie.overview.length >= 220)
-        ? movie.overview.substring(0, 220).concat('...')
-        : movie.overview;
+    // Fetch the list of movies from the API
+    fetch(`http://localhost:3000/api/movies/detail/${index}`)
+        .then(response => response.json())
+        .then(data => {
+            loadDetailMovie(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while fetching movie data. Please try again.');
+        });
+});
+
+//func load detail movie
+function loadDetailMovie(data) {
+    var movie = data.Movies;
+    var txt = (movie.Description.length >= 220)
+        ? movie.Description.substring(0, 220).concat('...')
+        : movie.Description;
+
+    //compare to sortDateString
+    const releaseDate = new Date(movie.ReleaseDate).toLocaleDateString();
 
     var $sinopsis = $('.sinopsis');
-    $sinopsis.find('h3').text(movie.title);
+    $sinopsis.find('h3').text(movie.Name);
     $sinopsis.find('p').text(txt);
-    $sinopsis.find('img').attr('src', `https://image.tmdb.org/t/p/w300${movie.poster_path}`);
+    $sinopsis.find('img').attr('src', `${movie.Banner}`);
+    $sinopsis.find('span').text(releaseDate);
+    $sinopsis.find('small').text(movie.startTime);
 
     $('.main').toggleClass('page2');
     tooglePage1();
-});
+}
 
 
 // Function to fetch movies data from the API

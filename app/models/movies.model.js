@@ -1,9 +1,9 @@
 const connection = require('../common/connect');
 
 const Movies = {
-    addMovie: function (name, description, releaseDate, duration, banner, trailer, genreId, price, callback) {
-        connection.query('INSERT INTO Movies (Name, Description, ReleaseDate, Duration, Banner, Trailer, GenreId, Price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-            [name, description, releaseDate, duration, banner, trailer, genreId, price], (error, result) => {
+    addMovie: function (name, description, releaseDate, duration, banner, trailer, genreId, price, startTime, callback) {
+        connection.query('INSERT INTO Movies (Name, Description, ReleaseDate, Duration, Banner, Trailer, GenreId, Price, startTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [name, description, releaseDate, duration, banner, trailer, genreId, price, startTime], (error, result) => {
                 if (error) {
                     return callback(error);
                 }
@@ -15,8 +15,8 @@ const Movies = {
         connection.query('SELECT * FROM Movies', callback);
     },
 
-    updateMovie: function (id, name, description, releaseDate, duration, banner, trailer, genreId, callback) {
-        connection.query('UPDATE Movies SET Name=?, Description = ?, ReleaseDate = ?, Duration = ?, Banner = ?, Trailer = ?, GenreId = ? WHERE MovieId = ?', [name, description, releaseDate, duration, banner, trailer, genreId, id], (error, result) => {
+    updateMovie: function (id, name, description, releaseDate, duration, banner, trailer, genreId, startTime, callback) {
+        connection.query('UPDATE Movies SET Name=?, Description = ?, ReleaseDate = ?, Duration = ?, Banner = ?, Trailer = ?, GenreId = ?, startTime = ? WHERE MovieId = ?', [name, description, releaseDate, duration, banner, trailer, genreId, startTime, id], (error, result) => {
             if (error) {
                 return callback(error);
             }

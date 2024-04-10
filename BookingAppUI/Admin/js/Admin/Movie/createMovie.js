@@ -18,6 +18,7 @@ function addMovie() {
     var trailer = document.getElementById('trailer').value;
     var genreId = parseInt(document.getElementById('genreId').value);
     var price = parseInt(document.getElementById('price').value);
+    var startTime = document.getElementById('startTime').value;
 
     // Validate
     if (duration < 0) {
@@ -35,10 +36,10 @@ function addMovie() {
         alert('Price must be a non-negative number.');
         return;
     }
-    createMovie(name, description, releaseDate, duration, banner, trailer, genreId, price);
+    createMovie(name, description, releaseDate, duration, banner, trailer, genreId, price, startTime);
 }
 
-function createMovie(name, description, releaseDate, duration, banner, trailer, genreId, price) {
+function createMovie(name, description, releaseDate, duration, banner, trailer, genreId, price, startTime) {
 
     var Movie = {
         name: name,
@@ -49,6 +50,7 @@ function createMovie(name, description, releaseDate, duration, banner, trailer, 
         trailer: trailer,
         genreId: genreId,
         price: price,
+        startTime: startTime
     };
     // Send POST request to the API
     fetch('http://localhost:3000/api/movies/add', {

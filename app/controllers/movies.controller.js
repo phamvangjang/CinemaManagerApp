@@ -1,10 +1,10 @@
 const Movies = require('../models/movies.model');
 
 exports.addMovie = (req, res) => {
-    const { name, description, releaseDate, duration, banner, trailer, genreId, price } = req.body;
+    const { name, description, releaseDate, duration, banner, trailer, genreId, price, startTime } = req.body;
 
     // Add the movie to the database
-    Movies.addMovie(name, description, releaseDate, duration, banner, trailer, genreId, price, (error, movieId) => {
+    Movies.addMovie(name, description, releaseDate, duration, banner, trailer, genreId, price, startTime, (error, movieId) => {
         if (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -24,10 +24,10 @@ exports.getAllMovies = (req, res) => {
 
 exports.updateMovie = (req, res) => {
     const { id } = req.params;
-    const { name, description, releaseDate, duration, banner, trailer, genreId } = req.body;
+    const { name, description, releaseDate, duration, banner, trailer, genreId, startTime } = req.body;
 
     // Update genre of the movie in the database
-    Movies.updateMovie(id, name, description, releaseDate, duration, banner, trailer, genreId, (error, updated) => {
+    Movies.updateMovie(id, name, description, releaseDate, duration, banner, trailer, genreId, startTime, (error, updated) => {
         if (error) {
             return res.status(500).json({ error: error.message });
         }
