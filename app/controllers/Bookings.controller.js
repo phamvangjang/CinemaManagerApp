@@ -46,3 +46,16 @@ exports.deleteBookings = (req, res) => {
         res.status(200).json({ message: 'Bookings deleted successfully' });
     });
 };
+
+//booking ticket movie
+exports.bookTickets = (req, res) => {
+    const { userId, movieId, seatIds, totalPrice } = req.body;
+
+    Bookings.bookTickets(userId, movieId, seatIds, totalPrice, (err) => {
+        if (err) {
+            return res.status(500).json({ error: 'An error occurred while booking tickets.' });
+        }
+
+        res.status(200).json({ message: 'Tickets booked successfully.' });
+    });
+};
