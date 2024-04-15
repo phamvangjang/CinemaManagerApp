@@ -1,4 +1,3 @@
-var currentdata = Object();
 // press f11 to full page view
 // vote for me at https://www.uplabs.com/posts/fluent-movie-booking
 
@@ -42,42 +41,6 @@ $('button.back').on('click', evt => {
     tooglePage1();
 });
 
-//show detail of movie page2
-$('.covers').on('click', 'li', evt => {
-    // var data = getData();
-    var index = evt.currentTarget.getAttribute('data-index');
-    // Fetch the list of movies from the API
-    fetch(`http://localhost:3000/api/movies/detail/${index}`)
-        .then(response => response.json())
-        .then(data => {
-            loadDetailMovie(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while fetching movie data. Please try again.');
-        });
-});
-
-//func load detail movie
-function loadDetailMovie(data) {
-    var movie = data.Movies;
-    var txt = (movie.Description.length >= 220)
-        ? movie.Description.substring(0, 220).concat('...')
-        : movie.Description;
-
-    //compare to sortDateString
-    const releaseDate = new Date(movie.ReleaseDate).toLocaleDateString();
-
-    var $sinopsis = $('.sinopsis');
-    $sinopsis.find('h3').text(movie.Name);
-    $sinopsis.find('p').text(txt);
-    $sinopsis.find('img').attr('src', `${movie.Banner}`);
-    $sinopsis.find('span').text(releaseDate);
-    $sinopsis.find('small').text(movie.startTime);
-
-    $('.main').toggleClass('page2');
-    tooglePage1();
-}
 
 
 // Function to fetch movies data from the API
@@ -227,54 +190,6 @@ function populateGenres() {
 // Call the function to populate the ul list with genres
 populateGenres();
 
-
-//show seat
-var seats = [];
-var initPos = 65;
-for (var i = 0; i < 78; i++) {
-    var row = String.fromCharCode(initPos + Math.floor(i / 9));
-    var taken = (i % 7 == 0 || i % 6 == 0) ? 'taken' : '';
-
-    var aisle = (i % 9 === 1) ? 'aisle-right' :
-        (i % 9 === 7) ? 'aisle-left' : '';
-
-    if (row === 'I')
-        aisle = 'aisle-top';
-
-    seats.push(`<div class="seat ${taken} ${aisle}">${row}${i % 9 + 1}</div>`);
-}
-$('.seats').html(seats.join(''));
-
-//booking seat
-$('.seats').on('click', '.seat', evt => {
-    var $seat = $(evt.currentTarget);
-
-    if (!$seat.hasClass('taken')) {
-        $seat.toggleClass('selected');
-
-        var $sel = $seat.parent().find('.selected');
-        var qty = $sel.length * 5.44;
-        $('.total span').text(`$${qty}`.substring(0, 6));
-    }
-});
-
-
-//handel event booking was success
-$('.total button').on('click', function (evt) {
-    var $button = $(evt.currentTarget);
-    var total = $('.total span').text();
-
-    if (!$button.hasClass('success') && total !== '$0') {
-        var $loader = $('.loader').show();
-        $button.text('Booking...');
-
-        setTimeout(() => {
-            $loader.hide();
-            $button.html('<i class="zmdi zmdi-check-circle"></i> Movie Booked');
-            $button.addClass('success');
-        }, 1600);
-    }
-});
 
 /*** END OF CODE ***/
 

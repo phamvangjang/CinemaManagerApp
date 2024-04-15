@@ -26,13 +26,15 @@ app.use(cors())
 app.use('/api/movies', moviesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/genre', genreRoutes);
+app.use('/api/seat', seatRoutes);
+app.use('/api/BookingSeats', BookingSeatsRoutes);
+app.use('/api/Bookings', BookingsRouters);
+
+
 app.use('/api/FoodItems', FoodItemsRoutes);
 app.use('/api/RoomScreening', RoomScreeningRoutes);
 app.use('/api/showtimes', showtimesRoutes);
-app.use('/api/seat', seatRoutes);
-app.use('/api/BookingSeats', BookingSeatsRoutes);
 app.use('/api/FoodOrders', FoodOrdersRoutes);
-app.use('/api/Bookings', BookingsRouters);
 
 // Protected route
 app.get('/protected', authenticateJWT, (req, res) => {
