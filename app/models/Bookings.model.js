@@ -20,16 +20,12 @@ const Bookings = {
 
     //booking ticket movie 
     bookTickets(userId, movieId, seatIds, totalPrice, callback) {
-        // const totalPrice = seatIds.length * 10; // Assuming ticket price is $10
         const bookingQuery = 'INSERT INTO Bookings (UserId, MovieId, BookingTime, TotalPrice) VALUES (?, ?, NOW(), ?)';
         const seatQuery = 'INSERT INTO BookingSeats (BookingId, MovieId, SeatId) VALUES ?';
 
         connection.query(bookingQuery, [userId, movieId, totalPrice], (err, result) => {
             if (err) {
-                connection.rollback(() => {
-                    connection.release();
-                    callback(err);
-                });
+                return callback(err);
             }
 
             const bookingId = result.insertId;
@@ -37,23 +33,9 @@ const Bookings = {
 
             connection.query(seatQuery, [seatValues], (err) => {
                 if (err) {
-                    connection.rollback(() => {
-                        connection.release();
-                        callback(err);
-                    });
+                    return callback(err);
                 }
-
-                connection.commit((err) => {
-                    if (err) {
-                        connection.rollback(() => {
-                            connection.release();
-                            callback(err);
-                        });
-                    }
-
-                    connection.release();
-                    callback(null);
-                });
+                callback(null);
             });
         });
     }
