@@ -174,7 +174,7 @@ $('.total button').on('click', function (evt) {
             };
             console.log(bookingData);
             // Make a POST request to the booking API
-            fetch('http://localhost:3000/api/Bookings/book', {
+            fetch(`http://localhost:3000/api/Bookings/book`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
