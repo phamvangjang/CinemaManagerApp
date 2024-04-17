@@ -112,37 +112,6 @@ $('.seats').on('click', '.seat', evt => {
 
 
 //handel event booking was success
-/*
-$('.total button').on('click', function (evt) {
-    var $button = $(evt.currentTarget);
-    var total = $('.total span').text();
-
-    if (!$button.hasClass('success') && total !== '$0') {
-        var $loader = $('.loader').show();
-        $button.text('Booking...');
-
-        setTimeout(() => {
-            $loader.hide();
-            $button.html('<i class="zmdi zmdi-check-circle"></i> Movie Booked');
-            $button.addClass('success');
-        }, 1600);
-    }
-    funcBookingTickets();
-});
-
-function funcBookingTickets() {
-    // Check if user is logged in
-    if (isLoggedIn()) {
-        // Retrieve user ID from localStorage
-
-        const userId = getUserById();
-    } else {
-        console.log('User is not logged in. Please login.');
-        // Provide a message or prompt the user to login
-        return;
-    }
-}
-*/
 $('.total button').on('click', function (evt) {
     var $button = $(evt.currentTarget);
     var total = $('.total span').text();

@@ -49,15 +49,14 @@ function getUserId() {
 
 // When the user clicks the button, fetch user information and display it in the modal
 btn.addEventListener("click", function () {
-  getUserById();
+  funcGetUserById();
 });
-function getUserById() {
+function funcGetUserById() {
 
   // Check if user is logged in
   if (isLoggedIn()) {
     // Retrieve user ID from localStorage
     const userId = getUserId();
-
     // Fetch user information
     fetch(`http://localhost:3000/api/users/getUserById/${userId}`)
       .then(response => response.json())
@@ -69,7 +68,6 @@ function getUserById() {
          <p>Username: ${data.Users.Username}</p>
          <p>Email: ${data.Users.Email}</p>
          <p>Avatar: <img src="${data.Users.Avatar}" alt="User Avatar" width="100"></p>
-         <p>Role: ${data.Users.Role}</p>
      `;
       })
       .catch(error => console.error('Error:', error));
