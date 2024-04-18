@@ -59,3 +59,18 @@ exports.bookTickets = (req, res) => {
         res.status(200).json({ message: 'Tickets booked successfully.' });
     });
 };
+
+exports.getBookingsByUserId = (req, res) => {
+    const { UserId } = req.params;
+
+    // Fetch movie by MovieId from the database
+    Bookings.getBookingsByUserId(UserId, (error, Bookings) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        if (!Bookings) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+        res.status(200).json({ Bookings });
+    });
+};

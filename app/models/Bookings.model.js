@@ -38,6 +38,15 @@ const Bookings = {
                 callback(null);
             });
         });
+    }, 
+
+    getBookingsByUserId: function (UserId, callback) {
+        connection.query('SELECT * FROM Bookings WHERE UserId = ?', [UserId], (error, results) => {
+            if (error) {
+                return callback(error);
+            }
+            callback(null, results);
+        });
     }
 };
 
