@@ -60,11 +60,26 @@ exports.findByName = (req, res) => {
     if (error) {
       return res.status(500).json({ error: error.message });
     }
-    
+
     if (results.length === 0) {
       return res.status(404).json({ message: 'Genre not found' });
     }
 
     res.status(200).json({ genres: results });
+  });
+};
+
+exports.getGenderById = (req, res) => {
+  const { GenreId } = req.params;
+
+  // Fetch movie by MovieId from the database
+  Genre.getGenderById(GenreId, (error, Gender) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    if (!Gender) {
+      return res.status(404).json({ message: 'Gender not found' });
+    }
+    res.status(200).json({ Gender });
   });
 };

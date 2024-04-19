@@ -19,7 +19,19 @@ const Genre = {
 
   findByName: function(name, callback) {
     connection.query('SELECT * FROM Genres WHERE Name LIKE ?', [`%${name}%`], callback);
-  }
+  },
+   
+  getGenderById: function (GenreId, callback) {
+    connection.query('SELECT * FROM Genres WHERE GenreId = ?', [GenreId], (error, results) => {
+        if (error) {
+            return callback(error);
+        }
+        if (results.length === 0) {
+            return callback(null, null);
+        }
+        callback(null, results[0]);
+    });
+}
 };
 
 module.exports = Genre;
