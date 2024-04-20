@@ -148,3 +148,12 @@ exports.editUser = (req, res) => {
     });
   });
 };
+
+exports.getAllUser = (req, res) => {
+  User.getAllUsers((error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(200).json({ Users: results });
+  });
+};

@@ -32,7 +32,11 @@ const User = {
 
   getUserPasswordById: (userId, callback) => {
     connection.query('SELECT Password FROM Users WHERE UserId = ?', [userId], callback);
-  }
+  },
+
+  getAllUsers: function (callback) {
+    connection.query('SELECT * FROM Users', callback);
+  },
 };
 
 
