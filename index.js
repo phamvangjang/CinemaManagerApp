@@ -6,12 +6,11 @@ const moviesRoutes = require('./app/routes/movies.router');
 const userRoutes = require('./app/routes/users.routers');
 const authenticateJWT = require('./app/routes/middlewares.router')
 const genreRoutes = require('./app/routes/genre.router');
-const FoodItemsRoutes = require('./app/routes/FoodItems.router');
-const showtimesRoutes = require('./app/routes/showtimes.router');
-const RoomScreeningRoutes = require('./app/routes/RoomScreening.router');
+
+
 const seatRoutes = require('./app/routes/seat.router');
 const BookingSeatsRoutes = require('./app/routes/BookingSeats.router');
-const FoodOrdersRoutes = require('./app/routes/FoodOrders.router');
+
 const BookingsRouters = require('./app/routes/Bookings.router');
 
 dotenv.config();
@@ -31,10 +30,7 @@ app.use('/api/BookingSeats', BookingSeatsRoutes);
 app.use('/api/Bookings', BookingsRouters);
 
 
-app.use('/api/FoodItems', FoodItemsRoutes);
-app.use('/api/RoomScreening', RoomScreeningRoutes);
-app.use('/api/showtimes', showtimesRoutes);
-app.use('/api/FoodOrders', FoodOrdersRoutes);
+
 
 // Protected route
 app.get('/protected', authenticateJWT, (req, res) => {
