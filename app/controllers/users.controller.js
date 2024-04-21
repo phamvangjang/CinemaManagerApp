@@ -157,3 +157,33 @@ exports.getAllUser = (req, res) => {
     res.status(200).json({ Users: results });
   });
 };
+
+exports.deleteUser = (req, res) => {
+  const { id } = req.params;
+
+  // Delete the movie from the database
+  User.deleteUser(id, (error, result) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ message: 'User deleted successfully' });
+  });
+};
+
+exports.findUserByName = (req, res) => {
+  const { name } = req.params;
+
+  // Find the genre by name in the database
+  User.findUserByName(name, (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ Users: results });
+  });
+};

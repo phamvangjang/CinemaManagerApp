@@ -9,5 +9,7 @@ router.post('/logout', userController.logout);
 router.get('/getUserById/:userId', userController.getUserById);
 router.put('/edit/:userId', userController.editUser);
 router.get('/getLists', userController.getAllUser);
+router.delete('/delete/:id', userController.deleteUser);
+router.get('/findByName/:name', userController.findUserByName);
 
 module.exports = router;

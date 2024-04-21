@@ -37,6 +37,14 @@ const User = {
   getAllUsers: function (callback) {
     connection.query('SELECT * FROM Users', callback);
   },
+
+  deleteUser: function (id, callback) {
+    connection.query('DELETE FROM Users WHERE UserId = ?', [id], callback);
+  },
+
+  findUserByName: function (name, callback) {
+    connection.query('SELECT * FROM Users WHERE Username LIKE ?', [`%${name}%`], callback);
+  },
 };
 
 
