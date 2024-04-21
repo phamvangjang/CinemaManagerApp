@@ -23,12 +23,7 @@ function loadData(data) {
     // Add MovieId, Name, Description, ReleaseDate, Duration, Banner, Trailer, GenreId, and Price data as columns in the row
     const releaseDate = new Date(movie.ReleaseDate).toLocaleDateString();
     row.innerHTML = `
-      <td>
-        <span class="custom-checkbox">
-          <input type="checkbox" id="checkbox${movie.MovieId}" name="options[]" value="${movie.MovieId}">
-          <label for="checkbox${movie.MovieId}"></label>
-        </span>
-      </td>
+      <td>${movie.MovieId}</td>
       <td>${movie.Name}</td>
       <td>${movie.Description}</td>
       <td>${releaseDate}</td>
