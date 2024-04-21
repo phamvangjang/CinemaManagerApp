@@ -60,13 +60,13 @@ async function populateTable(bookings) {
         // Create table row and populate with booking and movie details
 
         const moviePrice = parseFloat(movieDetails.Price);
-        const totalPrice = parseFloat(booking.TotalPrice); 
+        const totalPrice = parseFloat(booking.TotalPrice);
         const formattedMoviePrice = formatPrice(moviePrice);
-        const formattedTotalPrice = formatPrice(totalPrice);         
-        
+        const formattedTotalPrice = formatPrice(totalPrice);
+
         const row = document.createElement('tr');
         const releaseDate = new Date(movieDetails.ReleaseDate).toLocaleDateString();
-        
+
         row.innerHTML = `
             <th scope="row">${booking.BookingId}</th>
             <td>${movieDetails.Name}</td>
@@ -91,16 +91,41 @@ function formatPrice(price) {
     return formattedPrice;
 }
 
+// Function to check if the user is logged in
+function isLoggedIn() {
+    return localStorage.getItem('isLoggedIn') === 'true';
+}
+
+// Function to get user data
+function getUserData() {
+    return JSON.parse(localStorage.getItem('user'));
+}
+
+// Function to get user token
+function getUserToken() {
+    return localStorage.getItem('token');
+}
+
+// Function to get userId
+function getUserId() {
+    return localStorage.getItem('userId');
+}
+
 
 // Function to handle the click event for the button
 function handleButtonClick() {
-    // Call the fetchBookingData function with the user ID (replace 4 with the actual user ID)
-    fetchBookingData(4)
-        .then(bookings => {
-            // Populate the table with the retrieved booking data
-            populateTable(bookings);
-        })
-        .catch(error => {
-            console.error('Error fetching booking data:', error);
-        });
+
+    if (isLoggedIn()) {
+        const userId = getUserId();
+        console.log(userId);
+        // Call the fetchBookingData function with the user ID (replace 4 with the actual user ID)
+        fetchBookingData(userId)
+            .then(bookings => {
+                // Populate the table with the retrieved booking data
+                populateTable(bookings);
+            })
+            .catch(error => {
+                console.error('Error fetching booking data:', error);
+            });
+    }
 }
