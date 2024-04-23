@@ -1,5 +1,14 @@
 const Bookings = require('../models/Bookings.model');
 
+exports.getAllBookings = (req, res) => {
+    Bookings.getAllBookings((error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+
+        res.status(200).json({ Bookings: results });
+    });
+};
 
 //booking ticket movie 
 exports.bookTickets = (req, res) => {
@@ -7,7 +16,7 @@ exports.bookTickets = (req, res) => {
 
     Bookings.bookTickets(userId, movieId, seatIds, totalPrice, (err) => {
         if (err) {
-            return res.status(500).json({ error: 'An error occurred while booking tickets.' }); 
+            return res.status(500).json({ error: 'An error occurred while booking tickets.' });
         }
 
         res.status(200).json({ message: 'Tickets booked successfully.' });

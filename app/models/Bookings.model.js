@@ -1,6 +1,9 @@
 const connection = require('../common/connect');
 
 const Bookings = {
+    getAllBookings: function (callback) {
+        connection.query('SELECT * FROM Bookings', callback);
+    },
     
     //booking ticket movie 
     bookTickets(userId, movieId, seatIds, totalPrice, callback) {
