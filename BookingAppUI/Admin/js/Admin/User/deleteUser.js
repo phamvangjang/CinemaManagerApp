@@ -3,9 +3,10 @@ function populateDeleteForm(userId) {
     fetch(`http://localhost:3000/api/users/getUserById/${userId}`)
         .then(response => response.json())
         .then(data => {
-            const user = data.User;
-            document.getElementById('deleteUserName').textContent = user[0].Username;
+            const user = data.Users;
+            document.getElementById('deleteUserName').textContent = user.Username;
         });
+        console.log(userId)
     _currentUserId = userId;
 }
 // Function to handle delete movie button click

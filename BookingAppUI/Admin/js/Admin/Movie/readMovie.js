@@ -22,13 +22,18 @@ function loadData(data) {
 
     // Add MovieId, Name, Description, ReleaseDate, Duration, Banner, Trailer, GenreId, and Price data as columns in the row
     const releaseDate = new Date(movie.ReleaseDate).toLocaleDateString();
+    const Price = parseFloat(movie.Price);
+    const formattedPrice = formatPrice(Price);
+
+
+
     row.innerHTML = `
       <td>${movie.MovieId}</td>
       <td>${movie.Name}</td>
       <td>${movie.Description}</td>
       <td>${releaseDate}</td>
       <td>${movie.Duration}m</td>
-      <td>${movie.Price} VND</td>
+      <td>${formattedPrice}</td>
       <td>${movie.startTime} </td>
       <td>
         <a onclick="editMovie('${movie.MovieId}')" href="#editMovieModal" class="edit" data-toggle="modal" data-id="${movie.MovieId}">
@@ -44,6 +49,16 @@ function loadData(data) {
     // Append the row to the tbody
     tbody.appendChild(row);
   });
+}
+
+function formatPrice(price) {
+  // Convert price to a number
+  const numericPrice = parseFloat(price);
+  // Round the price to the nearest whole number
+  const roundedPrice = Math.round(numericPrice);
+  // Format price with commas every three digits and append " VND"
+  const formattedPrice = roundedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " VND";
+  return formattedPrice;
 }
 
 // Fetch the list of movies from the API

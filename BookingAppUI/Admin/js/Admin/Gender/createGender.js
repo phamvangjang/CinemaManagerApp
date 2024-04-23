@@ -43,6 +43,5 @@ function createGender(Name, Banner) {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while adding the gender. Please try again.');
         });
 }

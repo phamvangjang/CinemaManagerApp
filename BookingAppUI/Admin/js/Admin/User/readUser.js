@@ -35,6 +35,7 @@ function loadDataUser(data) {
 
     // Add info data as columns in the row
     row.innerHTML = `
+        <td>${user.UserId}</td>
         <td>${user.Username}</td>
         <td>${user.Email}</td>
         <td></td>
@@ -47,7 +48,7 @@ function loadDataUser(data) {
         </td>
       `;
 
-    row.querySelector('td:nth-child(3)').appendChild(avatarImg);
+    row.querySelector('td:nth-child(4)').appendChild(avatarImg);
 
     // Append the row to the tbody
     tbody.appendChild(row);

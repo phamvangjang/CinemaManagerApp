@@ -14,7 +14,6 @@ function populateEditForm(GenreId) {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while fetching gender details. Please try again.');
         });
 }
 
@@ -55,6 +54,5 @@ document.getElementById('editGenderForm').addEventListener('submit', function (e
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while updating the gender. Please try again.');
         });
 });

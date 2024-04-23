@@ -28,6 +28,7 @@ function loadDataGender(data) {
 
     // Add Name, Banner data as columns in the row
     row.innerHTML = `
+        <td>${genres.GenreId}</td>
         <td>${genres.Name}</td>
         <td></td>
         <td>
@@ -41,7 +42,7 @@ function loadDataGender(data) {
         </td>
       `;
 
-    row.querySelector('td:nth-child(2)').appendChild(bannerImg);
+    row.querySelector('td:nth-child(3)').appendChild(bannerImg);
 
     // Append the row to the tbody
     tbody.appendChild(row);

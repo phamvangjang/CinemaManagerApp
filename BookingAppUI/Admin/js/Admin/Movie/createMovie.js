@@ -20,6 +20,11 @@ function addMovie() {
     var price = parseInt(document.getElementById('price').value);
     var startTime = document.getElementById('startTime').value;
 
+    // Convert the release date string into a Date object
+    var releaseDateValue = new Date(releaseDate);
+
+    // Get today's date
+    var today = new Date();
     // Validate
     if (duration < 0) {
         // Display an error message or perform any other necessary actions
@@ -34,6 +39,10 @@ function addMovie() {
     if (price < 0) {
         // Display an error message or perform any other necessary actions
         alert('Price must be a non-negative number.');
+        return;
+    }
+    if (releaseDateValue < today) {
+        alert('The show date cannot be less than the current date.');
         return;
     }
     createMovie(name, description, releaseDate, duration, banner, trailer, genreId, price, startTime);
@@ -74,7 +83,5 @@ function createMovie(name, description, releaseDate, duration, banner, trailer, 
         })
         .catch(error => {
             console.error('Error:', error);
-            // bug
-            alert('An error occurred while adding the movie. Please try again.');
         });
 }

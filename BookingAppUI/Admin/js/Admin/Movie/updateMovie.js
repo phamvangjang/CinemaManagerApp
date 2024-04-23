@@ -29,7 +29,6 @@ function populateEditForm(movieId) {
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while fetching movie details. Please try again.');
     });
 }
 
@@ -79,7 +78,6 @@ document.getElementById('editMovieForm').addEventListener('submit', function(eve
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while updating the movie. Please try again.');
     });
 });
 
