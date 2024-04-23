@@ -31,6 +31,7 @@ $('.covers').on('click', 'li', evt => {
         .then(response => response.json())
         .then(data => {
             loadDetailMovie(data);
+            loadSeats(index);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -38,31 +39,46 @@ $('.covers').on('click', 'li', evt => {
         });
 });
 
+function loadSeats(index) {
+    //show seat
+    // Fetch seat data from the API
+    fetch('http://localhost:3000/api/seat/getLists')
+        .then(response => response.json())
+        .then(data => {
 
-//show seat
-// Fetch seat data from the API
-fetch('http://localhost:3000/api/seat/getLists')
-    .then(response => response.json())
-    .then(data => {
-        // Process the seat data
-        const seats = data.Seats.map(seat => {
-            const takenClass = seat.IsAvailable ? '' : 'taken';
-            const row = seat.Name.charAt(0);
-            const seatNumber = seat.Name.slice(1);
-            const aisleClass =
-                (seatNumber == 8) ? 'aisle-left' :
-                    (seatNumber == 2 && row != 'I') ? 'aisle-right' :
-                        (row == 'I') ? 'aisle-top' : '';
+            // Process the seat data
+            const seats = data.Seats.map(seat => {
+                const takenClass = seat.IsAvailable ? '' : 'taken';
+                const row = seat.Name.charAt(0);
+                const seatNumber = seat.Name.slice(1);
+                const aisleClass =
+                    (seatNumber == 8) ? 'aisle-left' :
+                        (seatNumber == 2 && row != 'I') ? 'aisle-right' :
+                            (row == 'I') ? 'aisle-top' : '';
 
-            return `<div class="seat ${takenClass} ${aisleClass}" data-seatid="${seat.SeatId}">${seat.Name}</div>`;
-        });
+                return `<div class="seat ${takenClass} ${aisleClass}" data-seatid="${seat.SeatId}">${seat.Name}</div>`;
+            });
 
-        // Display the seats on the webpage
-        $('.seats').html(seats.join(''));
-    })
-    .catch(error => console.error('Error fetching seat data:', error));
+            // Display the seats on the webpage
+            $('.seats').html(seats.join(''));
 
+            console.log('this is value of ' + index);
+            // Fetch selected seats for movieId index
+            fetch(`http://localhost:3000/api/BookingSeats/selectedSeats/${index}`)
+                .then(response => response.json())
+                .then(data => {
+                    const selectedSeats = data.selectedSeats;
 
+                    // Update the takenClass for selected seats
+                    selectedSeats.forEach(seatId => {
+                        $(`.seat[data-seatid="${seatId}"]`).addClass('taken');
+                    });
+                })
+                .catch(error => console.error('Error fetching selected seats:', error));
+        })
+        .catch(error => console.error('Error fetching seat data:', error));
+
+}
 
 // Function to check if the user is logged in
 function isLoggedIn() {
@@ -84,7 +100,6 @@ function getUserById() {
     return localStorage.getItem('userId');
 }
 
-
 //booking seat
 $('.seats').on('click', '.seat', evt => {
     var $seat = $(evt.currentTarget);
@@ -105,11 +120,9 @@ $('.seats').on('click', '.seat', evt => {
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while fetching movie data. Please try again.');
             });
     }
 });
-
 
 //handel event booking was success
 $('.total button').on('click', function (evt) {
@@ -130,7 +143,10 @@ $('.total button').on('click', function (evt) {
             var movieId = currentIndex; // Assuming you have stored the current movieId
             var seatIds = []; // You need to fill this with the selected seat IDs
             $('.selected').each(function () {
-                seatIds.push($(this).data('seatid'));
+                var seatId = $(this).data('seatid');
+                if (seatId !== undefined) {
+                    seatIds.push(seatId);
+                }
             });
             var totalPrice = parseInt(total.replace(/[^\d]/g, '')); // Remove non-numeric characters and parse as integer
 
@@ -153,11 +169,9 @@ $('.total button').on('click', function (evt) {
                 .then(response => response.json())
                 .then(data => {
                     console.log('Booking successful:', data);
-                    // Handle success response as needed
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while booking. Please try again.');
                 });
         }, 1600);
     }
