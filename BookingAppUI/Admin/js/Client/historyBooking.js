@@ -66,6 +66,21 @@ async function populateTable(bookings) {
 
         const row = document.createElement('tr');
         const releaseDate = new Date(movieDetails.ReleaseDate).toLocaleDateString();
+        const bookingTime = new Date(booking.BookingTime);
+
+        // Extract date components
+        const day = bookingTime.getDate();
+        const month = bookingTime.getMonth() + 1; // Month is zero-based, so add 1
+        const year = bookingTime.getFullYear();
+
+        // Extract time components
+        const hours = bookingTime.getHours();
+        const minutes = bookingTime.getMinutes();
+        const seconds = bookingTime.getSeconds();
+
+        // Format the date and time as "dd/MM/yyyy, hh:mm:ss"
+        const formattedBookingTime = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
 
         row.innerHTML = `
             <th scope="row">${booking.BookingId}</th>
@@ -74,7 +89,7 @@ async function populateTable(bookings) {
             <td>${formattedMoviePrice}</td>
             <td>${releaseDate}</td>
             <td>${movieDetails.startTime}</td>
-            <td>${new Date(booking.BookingTime).toLocaleString()}</td>
+            <td>${formattedBookingTime}</td>
             <td>${formattedTotalPrice}</td>
         `;
         tableBody.appendChild(row);

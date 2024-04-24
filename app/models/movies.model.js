@@ -12,11 +12,15 @@ const Movies = {
     },
 
     getAllMovies: function (callback) {
-        connection.query('SELECT * FROM Movies', callback);
+        connection.query('SELECT * FROM Movies ORDER BY ReleaseDate ASC;', callback);
     },
 
-    updateMovie: function (id, name, description, releaseDate, duration, banner, trailer, genreId, startTime, callback) {
-        connection.query('UPDATE Movies SET Name=?, Description = ?, ReleaseDate = ?, Duration = ?, Banner = ?, Trailer = ?, GenreId = ?, startTime = ? WHERE MovieId = ?', [name, description, releaseDate, duration, banner, trailer, genreId, startTime, id], (error, result) => {
+    getMoviesWhereByDate: function (callback) {
+        connection.query('SELECT * FROM Movies WHERE ReleaseDate >= CURDATE() ORDER BY ReleaseDate ASC , MovieId ASC', callback); 
+    },
+
+    updateMovie: function (id, name, description, banner, trailer, genreId, callback) {
+        connection.query('UPDATE Movies SET Name = ?, Description = ?, Banner = ?, Trailer = ?, GenreId = ? WHERE MovieId = ?', [name, description, banner, trailer, genreId, id], (error, result) => {
             if (error) {
                 return callback(error);
             }
@@ -29,11 +33,11 @@ const Movies = {
     },
 
     findByName: function (name, callback) {
-        connection.query('SELECT * FROM Movies WHERE Name LIKE ?', [`%${name}%`], callback);
+        connection.query('SELECT * FROM Movies WHERE Name LIKE ? ORDER BY ReleaseDate ASC , MovieId ASC', [`%${name}%`], callback);
     },
 
     getMoviesByGenreId: function (genreId, callback) {
-        connection.query('SELECT * FROM Movies WHERE GenreId = ?', [genreId], (error, results) => {
+        connection.query('SELECT * FROM Movies WHERE GenreId = ?  AND ReleaseDate >= CURDATE() ORDER BY ReleaseDate ASC , MovieId ASC', [genreId], (error, results) => {
             if (error) {
                 return callback(error);
             }
@@ -51,7 +55,17 @@ const Movies = {
             }
             callback(null, results[0]);
         });
-    }
+    },
+
+    getMoviesByTime: function (startTime, endTime, callback) {
+        connection.query('SELECT * FROM Movies WHERE startTime BETWEEN ? AND ? ORDER BY ReleaseDate ASC , MovieId ASC', [startTime, endTime], (error, results) => {
+            if (error) {
+                return callback(error);
+            }
+            callback(null, results);
+        });
+    },
+
 };
 
 module.exports = Movies;

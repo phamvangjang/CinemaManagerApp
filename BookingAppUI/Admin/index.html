@@ -32,6 +32,8 @@
             <button class="search" type="submit" id="button-addon2">SEARCH</button>
             <ul class="menu">
 
+                <li id="btnfilter18h"><i class="fa fa-filter"></i> 18h-20h</li>
+                <li id="btnfilter22h"><i class="fa fa-filter"></i> 22h-23h59</li>
                 <li id="btnDetailUser"><i class="fa fa-user-circle-o"></i> Profile</li>
                 <li id="btnEditUser" title="Edit"><i class="fa fa-edit"></i> Edit</li>
                 <li id="btnHistoryBooking" title="History Booking" type="button" data-toggle="modal"
@@ -87,14 +89,14 @@
                             <li>taken</li>
                         </ul>
                         <span>Select your seats</span>
-                        <div class="seats"></div>
                         <div class="screen">screen</div>
+                        <div class="seats"></div>
                     </section>
 
                     <!-- Total Price -->
                     <div class="total">
                         <small>Total </small><span>$0</span>
-                        <button>CHECKOUT</button>
+                        <button id="buttonPayment">ONLINE PAYMENT</button>
                         <div class="loader"></div>
                     </div>
                 </div>
@@ -215,6 +217,7 @@
     <script src="./js/Client/detailMovie.js"></script>
     <script src="./js/Client/historyBooking.js"></script>
     <script src="./js/Auth/signOut.js"></script>
+    <script src="./js/Client/filterMoviesbytime.js"></script>
 </body>
 
 </html>

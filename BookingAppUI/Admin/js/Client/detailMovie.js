@@ -9,17 +9,29 @@ function loadDetailMovie(data) {
 
     //compare to sortDateString
     const releaseDate = new Date(movie.ReleaseDate).toLocaleDateString();
+    const Price = parseFloat(movie.Price);
+    const formattedPrice = formatPrice(Price);
 
     var $sinopsis = $('.sinopsis');
     $sinopsis.find('h3').text(movie.Name);
     $sinopsis.find('p').text(txt);
     $sinopsis.find('img').attr('src', `${movie.Banner}`);
     $sinopsis.find('span').text(releaseDate);
-    $sinopsis.find('small').text(movie.startTime);
+    $sinopsis.find('small').text(formattedPrice);
 
     $('.main').toggleClass('page2');
     tooglePage1();
 }
+
+function formatPrice(price) {
+    // Convert price to a number
+    const numericPrice = parseFloat(price);
+    // Round the price to the nearest whole number
+    const roundedPrice = Math.round(numericPrice);
+    // Format price with commas every three digits and append " VND"
+    const formattedPrice = roundedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " VND";
+    return formattedPrice;
+  }
 
 //show detail of movie page2
 $('.covers').on('click', 'li', evt => {
@@ -133,7 +145,7 @@ $('.total button').on('click', function (evt) {
         var $loader = $('.loader').show();
         $button.text('Booking...');
 
-        setTimeout(() => {
+        setTimeout(async () => {
             $loader.hide();
             $button.html('<i class="zmdi zmdi-check-circle"></i> Movie Booked');
             $button.addClass('success');
@@ -159,7 +171,7 @@ $('.total button').on('click', function (evt) {
             };
             console.log(bookingData);
             // Make a POST request to the booking API
-            fetch(`http://localhost:3000/api/Bookings/book`, {
+            await fetch(`http://localhost:3000/api/Bookings/book`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -173,6 +185,7 @@ $('.total button').on('click', function (evt) {
                 .catch(error => {
                     console.error('Error:', error);
                 });
-        }, 1600);
+                window.open('http://sandbox.vnpayment.vn/tryitnow/Home/CreateOrder', '_blank');
+            }, 1600);
     }
 });

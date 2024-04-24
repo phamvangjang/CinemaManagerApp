@@ -24,15 +24,23 @@ function fetchMovies() {
             // console.log(data.Movies);
             const moviesContainer = document.querySelector('.covers');
             const moviesHTML = data.Movies.map(movie => {
-                const { MovieId, Banner, Name, Duration, ReleaseDate } = movie;
-                const releaseDate = new Date(ReleaseDate).toLocaleDateString();
+                const { MovieId, Banner, Name, startTime, ReleaseDate } = movie;
+                const releaseDate = new Date(ReleaseDate);
+
+                // Get day, month, and year components
+                const day = releaseDate.getDate();
+                const month = releaseDate.getMonth() + 1; // Month is zero-based, so add 1
+                const year = releaseDate.getFullYear();
+
+                // Format the date as "dd/MM/yyyy"
+                const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
 
 
                 return `
                     <li data-index="${MovieId}">
                     <img src="${Banner}" alt="${Name}">
                     <span>${Name}</span>
-                    <small>${Duration}m ${releaseDate}</small>
+                    <small>${startTime}, ${formattedDate}</small>
                     </li>
                 `;
             }).join('');

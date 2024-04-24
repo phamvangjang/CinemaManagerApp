@@ -1,6 +1,3 @@
-// press f11 to full page view
-// vote for me at https://www.uplabs.com/posts/fluent-movie-booking
-
 tooglePage1();
 //page home load data
 function tooglePage1() {
@@ -45,8 +42,7 @@ $('button.back').on('click', evt => {
 
 // Function to fetch movies data from the API
 function fetchMovies() {
-    // console.log('da goi api all phim');
-    return fetch('http://localhost:3000/api/movies/getLists')
+    return fetch('http://localhost:3000/api/movies/getMoviesbydate')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -61,7 +57,6 @@ function fetchMovies() {
 
 function renderMovies(data) {
     const moviesContainer = document.querySelector('.covers');
-    // console.log('da render ra list phim');
 
     // Check if data is an array before using map
     if (!Array.isArray(data)) {
@@ -70,13 +65,22 @@ function renderMovies(data) {
     }
 
     const moviesHTML = data.map(movie => {
-        const { MovieId, Banner, Name, Duration, ReleaseDate } = movie;
-        const releaseDate = new Date(ReleaseDate).toLocaleDateString();
+        const { MovieId, Banner, Name, startTime, ReleaseDate } = movie;
+        const releaseDate = new Date(ReleaseDate);
+
+        // Get day, month, and year components
+        const day = releaseDate.getDate();
+        const month = releaseDate.getMonth() + 1; // Month is zero-based, so add 1
+        const year = releaseDate.getFullYear();
+
+        // Format the date as "dd/MM/yyyy"
+        const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+
         return `
             <li data-index="${MovieId}">
                 <img src="${Banner}" alt="${Name}">
                 <span>${Name}</span>
-                <small>${Duration}m ${releaseDate}</small>
+                <small>${startTime}, ${formattedDate}</small>
             </li>
         `;
     }).join('');
@@ -88,7 +92,6 @@ function renderMovies(data) {
 fetchMovies().then(data => {
     // console.log('da goi ham renderMovie')
     renderMovies(data);
-
 })
 
 //handle event gender film
@@ -100,22 +103,29 @@ const handleSwitchTabFuc = function (evt) {
     if (filter === ',') {
         clearData();
         // alert("clear");
-        fetch('http://localhost:3000/api/movies/getLists')
+        fetch('http://localhost:3000/api/movies/getMoviesbydate')
             .then(response => response.json())
             .then(data => {
                 const moviesContainer = document.querySelector('.covers');
                 // alert('da render ra list phim');
 
                 const moviesHTML = data.Movies.map(movie => {
-                    const { MovieId, Banner, Name, Duration, ReleaseDate } = movie;
-                    const releaseDate = new Date(ReleaseDate).toLocaleDateString();
-                    // console.log(data);
+                    const { MovieId, Banner, Name, startTime, ReleaseDate } = movie;
+                    const releaseDate = new Date(ReleaseDate);
+
+                    // Get day, month, and year components
+                    const day = releaseDate.getDate();
+                    const month = releaseDate.getMonth() + 1; // Month is zero-based, so add 1
+                    const year = releaseDate.getFullYear();
+
+                    // Format the date as "dd/MM/yyyy"
+                    const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
 
                     return `
                         <li data-index="${MovieId}">
                         <img src="${Banner}" alt="${Name}">
                         <span>${Name}</span>
-                        <small>${Duration}m ${releaseDate}</small>
+                        <small>${startTime}, ${formattedDate}</small>
                         </li>
                     `;
                 }).join('');
@@ -189,3 +199,4 @@ function populateGenres() {
 
 // Call the function to populate the ul list with genres
 populateGenres();
+

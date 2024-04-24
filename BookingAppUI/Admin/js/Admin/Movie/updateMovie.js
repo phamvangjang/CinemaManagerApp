@@ -5,20 +5,14 @@ function populateEditForm(movieId) {
     .then(response => response.json())
     .then(data => {
         const movie = data.Movies;
-        console.log(movie) 
-        const releaseDate = new Date(data.Movies.ReleaseDate);
+        console.log(movie)
 
-        // Format releaseDate to "YYYY-MM-DD"
-        const formattedReleaseDate = releaseDate.toISOString().split('T')[0];
         document.getElementById('editName').value = data.Movies.Name;
         document.getElementById('editDescription').value = data.Movies.Description;
-        document.getElementById('editReleaseDate').value = formattedReleaseDate;
-        document.getElementById('editDuration').value =  data.Movies.Duration;
         document.getElementById('editBanner').value = data.Movies.Banner;
         document.getElementById('editTrailer').value = data.Movies.Trailer;
         document.getElementById('editGenreId').value = data.Movies.GenreId;
         document.getElementById('editPrice').value = data.Movies.Price;
-        document.getElementById('editStartTime').value = data.Movies.startTime;
         
         currentMovieId = movieId;
         // Open the edit movie modal
@@ -45,13 +39,10 @@ document.getElementById('editMovieForm').addEventListener('submit', function(eve
     const formData = {
         name: document.getElementById('editName').value,
         description: document.getElementById('editDescription').value,
-        releaseDate: document.getElementById('editReleaseDate').value,
-        duration: parseInt(document.getElementById('editDuration').value),
         banner: document.getElementById('editBanner').value,
         trailer: document.getElementById('editTrailer').value,
         genreId: parseInt(document.getElementById('editGenreId').value),
-        price: parseFloat(document.getElementById('editPrice').value),
-        startTime: document.getElementById('editStartTime').value
+        price: parseFloat(document.getElementById('editPrice').value)
     };
 
     const movieId = currentMovieId;

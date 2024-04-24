@@ -16,7 +16,8 @@ function deleteUser(userId) {
 
 //close form
 document.getElementById('deleteUserForm').addEventListener('submit', function () {
-    const userId = _currentUserId
+    var userId = _currentUserId;
+    console.log('xxx '+ userId)
     fetch(`http://localhost:3000/api/users/delete/${userId}`, {
         method: 'DELETE',
         headers: {

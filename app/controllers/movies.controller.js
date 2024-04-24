@@ -22,12 +22,22 @@ exports.getAllMovies = (req, res) => {
     });
 };
 
+exports.getMoviesWhereByDate = (req, res) => {
+    Movies.getMoviesWhereByDate((error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+
+        res.status(200).json({ Movies: results });
+    });
+};
+
 exports.updateMovie = (req, res) => {
     const { id } = req.params;
-    const { name, description, releaseDate, duration, banner, trailer, genreId, startTime } = req.body;
+    const { name, description, banner, trailer, genreId } = req.body;
 
     // Update genre of the movie in the database
-    Movies.updateMovie(id, name, description, releaseDate, duration, banner, trailer, genreId, startTime, (error, updated) => {
+    Movies.updateMovie(id, name, description, banner, trailer, genreId, (error, updated) => {
         if (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -85,6 +95,21 @@ exports.getMovieById = (req, res) => {
 
     // Fetch movie by MovieId from the database
     Movies.getMovieById(movieId, (error, Movies) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        if (!Movies) {
+            return res.status(404).json({ message: 'Movie not found' });
+        }
+        res.status(200).json({ Movies });
+    });
+};
+
+exports.getMoviesByTime = (req, res) => {
+    const { startTime, endTime } = req.query;
+
+    // Fetch movie by MovieId from the database
+    Movies.getMoviesByTime(startTime, endTime, (error, Movies) => {
         if (error) {
             return res.status(500).json({ error: error.message });
         }

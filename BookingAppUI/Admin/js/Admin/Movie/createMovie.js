@@ -1,3 +1,14 @@
+// // Get the modal
+// var addMovieModal = document.getElementById("addMovieModal");
+
+// // Get the button that opens the editModal
+// var btnAddMovie = document.getElementById("addMovieBtn");
+
+// // When the user clicks the button, open the editModal 
+// btnAddMovie.onclick = function () {
+//     addMovieModal.style.display = "none";
+// }
+
 //Event listener click btn & open form add Movie
 document.getElementById('addMovieButton').addEventListener('click', function () {
     $('#addMovieModal').modal('show');
@@ -83,5 +94,6 @@ function createMovie(name, description, releaseDate, duration, banner, trailer, 
         })
         .catch(error => {
             console.error('Error:', error);
+            // $('#addMovieModal').modal('hide');
         });
 }
