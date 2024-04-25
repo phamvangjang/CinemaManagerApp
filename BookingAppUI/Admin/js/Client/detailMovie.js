@@ -31,7 +31,7 @@ function formatPrice(price) {
     // Format price with commas every three digits and append " VND"
     const formattedPrice = roundedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " VND";
     return formattedPrice;
-  }
+}
 
 //show detail of movie page2
 $('.covers').on('click', 'li', evt => {
@@ -141,51 +141,53 @@ $('.total button').on('click', function (evt) {
     var $button = $(evt.currentTarget);
     var total = $('.total span').text();
 
-    if (!$button.hasClass('success') && total !== '$0') {
+    if ($button.hasClass('success') || total === '$0' || total === '0 VND') {
+        alert('Please choose your seat');
+        return;
+    }
+    console.log('dang thanh toan');
+    setTimeout(async () => {
         var $loader = $('.loader').show();
         $button.text('Booking...');
+        $loader.hide();
+        $button.html('<i class="zmdi zmdi-check-circle"></i> Movie Booked');
+        $button.addClass('success');
 
-        setTimeout(async () => {
-            $loader.hide();
-            $button.html('<i class="zmdi zmdi-check-circle"></i> Movie Booked');
-            $button.addClass('success');
+        // Get userId, movieId, seatIds, and totalPrice
+        var userId = getUserById(); // Assuming you have the userId
+        var movieId = currentIndex; // Assuming you have stored the current movieId
+        var seatIds = []; // You need to fill this with the selected seat IDs
+        $('.selected').each(function () {
+            var seatId = $(this).data('seatid');
+            if (seatId !== undefined) {
+                seatIds.push(seatId);
+            }
+        });
+        var totalPrice = parseInt(total.replace(/[^\d]/g, '')); // Remove non-numeric characters and parse as integer
 
-            // Get userId, movieId, seatIds, and totalPrice
-            var userId = getUserById(); // Assuming you have the userId
-            var movieId = currentIndex; // Assuming you have stored the current movieId
-            var seatIds = []; // You need to fill this with the selected seat IDs
-            $('.selected').each(function () {
-                var seatId = $(this).data('seatid');
-                if (seatId !== undefined) {
-                    seatIds.push(seatId);
-                }
-            });
-            var totalPrice = parseInt(total.replace(/[^\d]/g, '')); // Remove non-numeric characters and parse as integer
-
-            // Prepare the booking data
-            var bookingData = {
-                "userId": userId,
-                "movieId": movieId,
-                "seatIds": seatIds,
-                "totalPrice": totalPrice
-            };
-            console.log(bookingData);
-            // Make a POST request to the booking API
-            await fetch(`http://localhost:3000/api/Bookings/book`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(bookingData)
+        // Prepare the booking data
+        var bookingData = {
+            "userId": userId,
+            "movieId": movieId,
+            "seatIds": seatIds,
+            "totalPrice": totalPrice
+        };
+        console.log(bookingData);
+        // Make a POST request to the booking API
+        await fetch(`http://localhost:3000/api/Bookings/book`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookingData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Booking successful:', data);
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Booking successful:', data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-                window.open('http://sandbox.vnpayment.vn/tryitnow/Home/CreateOrder', '_blank');
-            }, 1600);
-    }
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        window.open('http://sandbox.vnpayment.vn/tryitnow/Home/CreateOrder', '_blank');
+    }, 1600);
 });
