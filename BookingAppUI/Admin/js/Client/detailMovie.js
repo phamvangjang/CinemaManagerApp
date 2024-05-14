@@ -8,7 +8,15 @@ function loadDetailMovie(data) {
         : movie.Description;
 
     //compare to sortDateString
-    const releaseDate = new Date(movie.ReleaseDate).toLocaleDateString();
+    const releaseDate = new Date(movie.ReleaseDate);
+
+    // Get day, month, and year components
+    const day = releaseDate.getDate();
+    const month = releaseDate.getMonth() + 1; // Month is zero-based, so add 1
+    const year = releaseDate.getFullYear();
+
+    // Format the date as "dd/MM/yyyy"
+    const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
     const Price = parseFloat(movie.Price);
     const formattedPrice = formatPrice(Price);
 
@@ -16,7 +24,7 @@ function loadDetailMovie(data) {
     $sinopsis.find('h3').text(movie.Name);
     $sinopsis.find('p').text(txt);
     $sinopsis.find('img').attr('src', `${movie.Banner}`);
-    $sinopsis.find('span').text(releaseDate);
+    $sinopsis.find('span').text(formattedDate);
     $sinopsis.find('small').text(formattedPrice);
 
     $('.main').toggleClass('page2');

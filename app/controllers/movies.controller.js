@@ -34,10 +34,10 @@ exports.getMoviesWhereByDate = (req, res) => {
 
 exports.updateMovie = (req, res) => {
     const { id } = req.params;
-    const { name, description, banner, trailer, genreId } = req.body;
+    const { banner, trailer, genreId, price } = req.body;
 
     // Update genre of the movie in the database
-    Movies.updateMovie(id, name, description, banner, trailer, genreId, (error, updated) => {
+    Movies.updateMovie(id, banner, trailer, genreId, price, (error, updated) => {
         if (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -66,6 +66,23 @@ exports.findByName = (req, res) => {
 
     // Find the genre by name in the database
     Movies.findByName(name, (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Movie not found' });
+        }
+
+        res.status(200).json({ Movies: results });
+    });
+};
+
+exports.findByNamebyClient = (req, res) => {
+    const { name } = req.params;
+
+    // Find the genre by name in the database
+    Movies.findByNamebyClient(name, (error, results) => {
         if (error) {
             return res.status(500).json({ error: error.message });
         }

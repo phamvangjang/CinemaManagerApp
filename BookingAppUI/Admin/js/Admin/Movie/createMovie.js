@@ -33,8 +33,6 @@ function addMovie() {
 
     // Convert the release date string into a Date object
     var releaseDateValue = new Date(releaseDate);
-
-    // Get today's date
     var today = new Date();
     // Validate
     if (duration < 0) {
@@ -57,6 +55,7 @@ function addMovie() {
         return;
     }
     createMovie(name, description, releaseDate, duration, banner, trailer, genreId, price, startTime);
+    
 }
 
 function createMovie(name, description, releaseDate, duration, banner, trailer, genreId, price, startTime) {
@@ -72,8 +71,10 @@ function createMovie(name, description, releaseDate, duration, banner, trailer, 
         price: price,
         startTime: startTime
     };
+
+    console.log(Movie)
     // Send POST request to the API
-    fetch('http://localhost:3000/api/movies/add', {
+    fetch(`http://localhost:3000/api/movies/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

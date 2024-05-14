@@ -9,6 +9,7 @@ router.get('/getMoviesbydate', moviesController.getMoviesWhereByDate);
 router.put('/update/:id', moviesController.updateMovie);
 router.delete('/delete/:id', moviesController.deleteMovie);
 router.get('/findByName/:name', moviesController.findByName);
+router.get('/findByNamebyclient/:name', moviesController.findByNamebyClient);
 router.get('/filtByGenreId/:genreId', moviesController.getMoviesByGenreId);
 router.get('/detail/:movieId', moviesController.getMovieById);
 router.get('/getMoviesbytime', moviesController.getMoviesByTime);

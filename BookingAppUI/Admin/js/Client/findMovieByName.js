@@ -18,7 +18,7 @@ function fetchMovies() {
     const searchQuery = _searchQuery;
     clearData();
     // console.log(searchQuery);
-    fetch(`http://localhost:3000/api/movies/findByName/${searchQuery}`)
+    fetch(`http://localhost:3000/api/movies/findByNamebyclient/${searchQuery}`)
         .then(response => response.json())
         .then(data => {
             // console.log(data.Movies);

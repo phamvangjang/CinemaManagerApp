@@ -6,9 +6,7 @@ function populateEditForm(movieId) {
     .then(data => {
         const movie = data.Movies;
         console.log(movie)
-
-        document.getElementById('editName').value = data.Movies.Name;
-        document.getElementById('editDescription').value = data.Movies.Description;
+        
         document.getElementById('editBanner').value = data.Movies.Banner;
         document.getElementById('editTrailer').value = data.Movies.Trailer;
         document.getElementById('editGenreId').value = data.Movies.GenreId;
@@ -37,8 +35,6 @@ document.getElementById('editMovieForm').addEventListener('submit', function(eve
 
     
     const formData = {
-        name: document.getElementById('editName').value,
-        description: document.getElementById('editDescription').value,
         banner: document.getElementById('editBanner').value,
         trailer: document.getElementById('editTrailer').value,
         genreId: parseInt(document.getElementById('editGenreId').value),
@@ -46,6 +42,7 @@ document.getElementById('editMovieForm').addEventListener('submit', function(eve
     };
 
     const movieId = currentMovieId;
+    console.log(formData);
     // Send a PUT request to the API endpoint to update the movie
     fetch(`http://localhost:3000/api/movies/update/${movieId}`, {
         method: 'PUT',

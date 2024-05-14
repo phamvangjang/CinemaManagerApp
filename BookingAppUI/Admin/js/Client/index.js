@@ -34,7 +34,7 @@ $('button.scrollTop').on('click', evt => doScroll(true));
 //btn listner event scroll go back page main
 $('button.back').on('click', evt => {
     $('.main').toggleClass('page2');
-    $('.total button').removeClass('success').text('CHECKOUT');
+    $('.total button').removeClass('success').text('ONLINE PAYMENT');
     tooglePage1();
 });
 

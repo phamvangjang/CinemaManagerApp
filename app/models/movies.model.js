@@ -19,8 +19,8 @@ const Movies = {
         connection.query('SELECT * FROM Movies WHERE ReleaseDate >= CURDATE() ORDER BY ReleaseDate ASC , MovieId ASC', callback); 
     },
 
-    updateMovie: function (id, name, description, banner, trailer, genreId, callback) {
-        connection.query('UPDATE Movies SET Name = ?, Description = ?, Banner = ?, Trailer = ?, GenreId = ? WHERE MovieId = ?', [name, description, banner, trailer, genreId, id], (error, result) => {
+    updateMovie: function (id, banner, trailer, genreId, price, callback) {
+        connection.query('UPDATE Movies SET Banner = ?, Trailer = ?, GenreId = ?, Price = ? WHERE MovieId = ?', [banner, trailer, genreId, price, id], (error, result) => {
             if (error) {
                 return callback(error);
             }
@@ -34,6 +34,10 @@ const Movies = {
 
     findByName: function (name, callback) {
         connection.query('SELECT * FROM Movies WHERE Name LIKE ? ORDER BY ReleaseDate ASC , MovieId ASC', [`%${name}%`], callback);
+    },
+
+    findByNamebyClient: function (name, callback) {
+        connection.query('SELECT * FROM Movies WHERE Name LIKE ? AND ReleaseDate >= CURDATE() ORDER BY ReleaseDate ASC , MovieId ASC', [`%${name}%`], callback);
     },
 
     getMoviesByGenreId: function (genreId, callback) {
@@ -58,7 +62,7 @@ const Movies = {
     },
 
     getMoviesByTime: function (startTime, endTime, callback) {
-        connection.query('SELECT * FROM Movies WHERE startTime BETWEEN ? AND ? ORDER BY ReleaseDate ASC , MovieId ASC', [startTime, endTime], (error, results) => {
+        connection.query('SELECT * FROM Movies WHERE startTime BETWEEN ? AND ? AND ReleaseDate >= CURDATE() ORDER BY ReleaseDate ASC , MovieId ASC', [startTime, endTime], (error, results) => {
             if (error) {
                 return callback(error);
             }
